@@ -1,4 +1,4 @@
-package novioleo.universalcredentialrecognition;
+package novioleo.UCR;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -8,18 +8,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
-import android.support.annotation.BoolRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.JavaCameraView;
@@ -33,15 +28,12 @@ import org.opencv.core.Rect;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
 import static org.opencv.android.Utils.matToBitmap;
 import static org.opencv.imgproc.Imgproc.CHAIN_APPROX_SIMPLE;
 import static org.opencv.imgproc.Imgproc.COLOR_RGBA2RGB;
-import static org.opencv.imgproc.Imgproc.CV_mRGBA2RGBA;
 import static org.opencv.imgproc.Imgproc.Canny;
 import static org.opencv.imgproc.Imgproc.RETR_TREE;
 import static org.opencv.imgproc.Imgproc.approxPolyDP;
@@ -168,7 +160,7 @@ public class CameraActivity2 extends AppCompatActivity implements CameraBridgeVi
                             max_area_contours = contours.get(i);
                         }
                     }
-                    if (max_area >= width*height*0.5){
+                    if (max_area >= width*height*0.4){
                         MatOfPoint2f double_max_area_contours =new MatOfPoint2f(max_area_contours.toArray());
                         double peri = arcLength(double_max_area_contours,true);
                         MatOfPoint2f result_curve = new MatOfPoint2f();
@@ -298,7 +290,7 @@ public class CameraActivity2 extends AppCompatActivity implements CameraBridgeVi
                 Double.valueOf(frameSize.height).intValue()
         );
         roi = new Mat(rgb,rect);
-        handlerThread.start();
+        handlerThread.run();
         return rgb;
     }
 
